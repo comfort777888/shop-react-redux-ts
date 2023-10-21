@@ -33,23 +33,33 @@ function Home() {
 
   const onChangePage = (number) => dispatch(setCurrentPage(number));
 
-  const fetchPizzas = () => {
+  const fetchPizzas = async () => {
+    setIsLoading(true);
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    setIsLoading(true);
+    // await axios
+    //   .get(
+    //     `https://652d06acf9afa8ef4b26a53e.mockapi.io/items?page=${currentPage}&limit=4&${
+    //       categoryId > 0 ? `category=${categoryId}` : ''
+    //     }&sortBy=${sort.sortProperty.replace('-', '')}&order=${
+    //       sort.sortProperty.includes('-') ? 'asc' : 'desc'
+    //     }${search}`,
+    //   )
+    //   .then((res) => {
+    //     setItems(res.data);
+    //     setIsLoading(false);
+    //   });
 
-    axios
-      .get(
-        `https://652d06acf9afa8ef4b26a53e.mockapi.io/items?page=${currentPage}&limit=4&${
-          categoryId > 0 ? `category=${categoryId}` : ''
-        }&sortBy=${sort.sortProperty.replace('-', '')}&order=${
-          sort.sortProperty.includes('-') ? 'asc' : 'desc'
-        }${search}`,
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+    const res = await axios.get(
+      `https://652d06acf9afa8ef4b26a53e.mockapi.io/items?page=${currentPage}&limit=4&${
+        categoryId > 0 ? `category=${categoryId}` : ''
+      }&sortBy=${sort.sortProperty.replace('-', '')}&order=${
+        sort.sortProperty.includes('-') ? 'asc' : 'desc'
+      }${search}`,
+    );
+
+    setItems(res.data);
+    setIsLoading(false);
   };
 
   //Если был первый рендер, то проверяем URL-параметры и сохраняем в redux
