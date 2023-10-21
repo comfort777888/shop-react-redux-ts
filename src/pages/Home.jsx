@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { setItems } from '../redux/slices/pizzasSlice';
 import Categories from './../components/Categories';
 import Sort, { sortList } from './../components/Sort';
 import PizzaBlock from './../components/PizzaBlock';
@@ -18,10 +19,11 @@ function Home() {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
+  const items = useSelector((state) => state.pizzas.items);
   const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
 
   const { searchValue } = React.useContext(SearchContext);
-  const [items, setItems] = React.useState([]);
+  //const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   //const [currentPage, setCurrentPage] = React.useState(1);
@@ -54,14 +56,14 @@ function Home() {
     //   });
 
     try {
-      const res = await axios.get(
+      const { data } = await axios.get(
         `https://652d06acf9afa8ef4b26a53e.mockapi.io/items?page=${currentPage}&limit=4&${
           categoryId > 0 ? `category=${categoryId}` : ''
         }&sortBy=${sort.sortProperty.replace('-', '')}&order=${
           sort.sortProperty.includes('-') ? 'asc' : 'desc'
         }${search}`,
       );
-      setItems(res.data);
+      dispatch(setItems(data));
     } catch (error) {
       console.log('ERROR', error);
     } finally {
