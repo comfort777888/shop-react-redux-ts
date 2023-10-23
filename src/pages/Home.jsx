@@ -20,9 +20,8 @@ function Home() {
   const isMounted = React.useRef(false);
 
   const { items, status } = useSelector((state) => state.pizzas);
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
+  const { categoryId, sort, currentPage, searchValue } = useSelector((state) => state.filter);
 
-  const { searchValue } = React.useContext(SearchContext);
   //const [items, setItems] = React.useState([]);
   //const [isLoading, setIsLoading] = React.useState(true);
 
