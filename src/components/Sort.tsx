@@ -25,13 +25,12 @@ const Sort: React.FC = () => {
 
   const onClickListItem = (obj: SortItem) => {
     dispatch(setSort(obj));
-    //onChangeSort(i);
     setOpen(false);
   };
 
   React.useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (!event.composedPath().includes(sortRef.current)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
         setOpen(false);
       }
     };
