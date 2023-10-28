@@ -11,6 +11,7 @@ import Sort, { sortList } from './../components/Sort';
 import PizzaBlock from './../components/PizzaBlock';
 import Skeleton from './../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
+import { RootState } from '../redux/store';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -18,8 +19,10 @@ const Home: React.FC = () => {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const { items, status } = useSelector((state: any) => state.pizzas);
-  const { categoryId, sort, currentPage, searchValue } = useSelector((state: any) => state.filter);
+  const { items, status } = useSelector((state: RootState) => state.pizzas);
+  const { categoryId, sort, currentPage, searchValue } = useSelector(
+    (state: RootState) => state.filter,
+  );
 
   const onChangeCategory = (id: number) => {
     dispatch(setCategoryId(id));
